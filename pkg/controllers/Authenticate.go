@@ -13,6 +13,23 @@ import (
 
 var newEmantaUser models.EmantaUser
 
+func Authenticate(w http.ResponseWriter, r *http.Request) {
+	//todo validar que solo la misma persona o un admin pueda traearse esta info, excepto el password y esas cosas.
+	newEmantaUser = models.EmantaUser{}
+	vars := mux.Vars(r)
+	username := vars["UserName"]
+	//Por ahora retornaremos con el username
+	// ID, err := strconv.ParseInt(username, 0, 0)
+	// if err != nil {
+	// 	fmt.Println("Error while parsing")
+	// }
+	bookDetails, _ := models.GetEmantaUserByUserName(username)
+	res, _ := json.Marshal(bookDetails)
+	w.Header().Set("Conten-Type", "pkglication/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(res)
+
+}
 func GetBookById(w http.ResponseWriter, r *http.Request) {
 	//todo validar que solo la misma persona o un admin pueda traearse esta info, excepto el password y esas cosas.
 	newEmantaUser = models.EmantaUser{}

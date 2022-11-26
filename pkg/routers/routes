@@ -1,7 +1,0 @@
-package routes
-
-import "github.com/gorilla/mux"
-
-var RegisterEmantaRoutes = func(router *mux.Router) {
-	router.HandleFunc("/authentication", controllers.Authentication).Methods("POST")
-}
