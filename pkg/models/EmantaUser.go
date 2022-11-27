@@ -5,19 +5,14 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-type User struct {
-	userName string
-	passwork string
-}
-
 var db *gorm.DB
 
 type EmantaUser struct {
 	gorm.Model
-	Name      string `gorm:""json:"name"`
-	userName  string `json:"username"`
-	password  string `json:"password"`
-	lastLogin string `json:"lastlogin"`
+	Name      string `gorm:"" json:"name"`
+	UserName  string `json:"username"`
+	Password  string `json:"password"`
+	LastLogin string `json:"lastlogin"`
 }
 
 func Init() {
@@ -44,12 +39,19 @@ func GetEmantaUserById(ID int64) (*EmantaUser, *gorm.DB) {
 
 func GetEmantaUserByUserName(UserName string) (*EmantaUser, *gorm.DB) {
 	var EmantaUser EmantaUser
-	db := db.Where("userName=?", UserName).Find(&EmantaUser)
+	db := db.Where("user_name=?", UserName).Find(&EmantaUser)
 	return &EmantaUser, db
 }
 
-func DeleteEmantaUser(Id int64) EmantaUser {
+func DeleteEmantaUser(username string) EmantaUser {
 	var EmantaUser EmantaUser
-	db.Where("ID=?", Id).Delete(EmantaUser)
+	db.Where("user_name=?", username).Delete(EmantaUser)
+	return EmantaUser
+}
+
+func HardDeleteEmantaUser(username string) EmantaUser {
+	var EmantaUser EmantaUser
+	db.Where("user_name=?", username).Delete(EmantaUser)
+	db.Unscoped().Delete(&EmantaUser, "user_name=?", username)
 	return EmantaUser
 }

@@ -57,12 +57,12 @@ func CreateBook(w http.ResponseWriter, r *http.Request) {
 }
 func DeleteBook(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	bookId := vars["bookId"]
-	ID, err := strconv.ParseInt(bookId, 0, 0)
-	if err != nil {
-		fmt.Println("error while parsin")
-	}
-	book := models.DeleteEmantaUser(ID)
+	username := vars["username"]
+	// ID, err := strconv.ParseInt(bookId, 0, 0)
+	// if err != nil {
+	// 	fmt.Println("error while parsin")
+	// }
+	book := models.DeleteEmantaUser(username)
 	res, _ := json.Marshal(book)
 	w.Header().Set("Content-Type", "pkglication/json")
 	w.WriteHeader(http.StatusOK)
